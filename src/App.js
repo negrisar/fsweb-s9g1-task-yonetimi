@@ -5,6 +5,8 @@ import TaskForm from "./TaskForm";
 import TaskHookForm from "./TaskHookForm";
 import PeopleForm from "./PeopleForm";
 import { initialTasks, initialTeam } from "./data";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -13,6 +15,16 @@ function App() {
 
   function handleTaskSubmit(yeniTask) {
     setTasks([yeniTask, ...tasks])
+    toast.info('Yeni Görev Eklendi', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
   }
 
   function handlePeopleSubmit(yeniKisi) {
@@ -20,7 +32,24 @@ function App() {
   }
 
   function handleComplete(id) {
-    console.log("tamamlama fonksiyonunu buraya yazın")
+    setTasks(
+      tasks.map(task=>{
+        if(task.id === id)
+         return{...task, status:"yapıldı"
+        }
+         return task;
+      })
+    )
+    toast.success(`${tasks.find((task)=>task.id === id).title} başıklı görev tamamlandı.`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
   }
 
   return (
@@ -59,7 +88,7 @@ function App() {
           </div>
         </div>
       </div>
-
+      <ToastContainer />
     </div>
   );
 }
